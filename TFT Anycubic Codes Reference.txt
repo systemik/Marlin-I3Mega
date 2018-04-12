@@ -1,0 +1,41 @@
+J00 SD inserted
+J01 SD removed
+J02 get tft status
+J03 usb connected
+J04 print from SD card
+J05 pause
+J06 hotend heating
+J07 hotend heating done
+J08 hotbed heating
+J09 hotbed heating done
+J10 heating failed/thermal run away
+J11 Kill
+J12 ready (cool down) 
+J13 cold extruder stop
+J14 print done
+J15 filament lack
+J16 error status. Stop print
+J17 main board reset
+J18 Pausing Done
+J20 file open success
+J21 file open failed
+J22 level watching finished (assist level) 
+J23 filament lack with prompt
+J33 version info
+
+
+
+A0V get hot end temp
+A1V get hotend target temp
+A2V get hotbed temp
+A3V get hotbed target temp 
+A4V get fan speed
+A5V get current coordinate 
+A6V get SD printing status
+A7V get printing time
+A9V z offset
+
+A20V get printing speed (feed rate) 
+A27V angle adjust
+R rise angle
+F fall angle
