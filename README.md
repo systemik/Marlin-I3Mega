@@ -20,7 +20,6 @@ Difference compared to anycubic official firmware:
 * No start music
 * No recovery after power failure
 * Thermal runaway active
-* Linear advice active (K 150)
 * ABL linear active (Touch mi setup)
 * Hotend limitation at 250°. (can be too small for petg and ABS but good limit for V5 hotend)
 * Hotend fan can run at 12V (maybe put 85-90% instead of 100% for the fan otherwise it cool to much)
@@ -132,8 +131,44 @@ You need to perform few optional operations to make sure the settings are accura
 
 5. Change the K value for linear advance.
 
- Value for K is set at 150. This is generally a good value for PLA. You can use the gcode generator on marlin website if you want to adjust the value to your printer/filament. (http://marlinfw.org/docs/features/lin_advance.html)
-Command to change it is M900 Kxx (where xx is what you found with the test)
+ Value for K is set at 0. You can activate Linear advance but yu can have some issue with small segments/details. 
+ You can use the gcode generator on marlin website if you want to adjust the value to your printer/filament. (http://marlinfw.org/docs/features/lin_advance.html)
+ Command to change it is M900 Kxx (where xx is what you found with the test)
+
+***
+***
+***
+
+Tutorial firmware update by Pierre Multi on Anycubic english forum:
+
+
+Flashing Mega i3 with Octoprint
+
+1. Add OctoPrint-FirmwareUpdater via plugin manager
+
+2. AVRDUDE Installation
+
+ AVRDUDE needs to be installed on the server where OctoPrint is running.
+
+ Raspberry Pi
+
+ sudo apt-get update
+
+ sudo apt-get install avrdude
+ 
+3. Setup FirmwareUpdater
+
+ in Octoprint Settings / Firmware Updater / parameters
+
+ Flash method : avrdude
+
+ AVR MCU : ATmega2560
+
+ Path to avrdude : /usr/bin/avrdude
+
+ AVR Programmer Type : wiring
+ 
+4. Save : you are ready to flash
 
 
 ***

@@ -539,4 +539,47 @@ void do_blocking_move_to_xy(const float &x, const float &y, const float &fr_mm_s
 
 #endif // CARTESIAN
 
+#if ENABLED(POWER_LOSS_RECOVERY)
+
+  #include "cardreader.h"
+
+  typedef struct {
+    uint8_t valid_head;
+
+    // Machine state
+    float current_position[NUM_AXIS], feedrate;
+    int16_t target_temperature[HOTENDS],
+            target_temperature_bed,
+            fanSpeeds[FAN_COUNT];
+
+    #if HAS_LEVELING
+      bool leveling;
+      float fade;
+    #endif
+
+    // Command queue
+    uint8_t cmd_queue_index_r, commands_in_queue;
+    char command_queue[BUFSIZE][MAX_CMD_SIZE];
+
+    // SD File position
+    char sd_filename[MAXPATHNAMELENGTH];
+    uint32_t sdpos;
+
+    // Job elapsed time
+    millis_t print_job_elapsed;
+
+    uint8_t valid_foot;
+  } job_recovery_info_t;
+
+  extern job_recovery_info_t job_recovery_info;
+  extern uint8_t job_recovery_commands_count;
+  enum JobRecoveryPhase : unsigned char {
+    JOB_RECOVERY_IDLE,
+    JOB_RECOVERY_MAYBE,
+    JOB_RECOVERY_YES
+  };
+  extern JobRecoveryPhase job_recovery_phase;
+
+#endif // POWER_LOSS_RECOVERY
+
 #endif // MARLIN_H

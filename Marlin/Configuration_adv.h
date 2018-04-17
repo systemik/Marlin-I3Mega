@@ -537,6 +537,16 @@
   //#define MENU_ADDAUTOSTART
 
   /**
+   * Continue after Power-Loss (Creality3D)
+   *
+   * Store the current state to the SD Card at the start of each layer
+   * during SD printing. If the recovery file is found at boot time, present
+   * an option on the LCD screen to continue the print from the last-known
+   * point in the file.
+   */
+  #define POWER_LOSS_RECOVERY
+
+  /**
    * Sort SD file listings in alphabetical order.
    *
    * With this option enabled, items on SD cards will be sorted
@@ -697,7 +707,7 @@
 #define LIN_ADVANCE
 
 #if ENABLED(LIN_ADVANCE)
-  #define LIN_ADVANCE_K 150
+  #define LIN_ADVANCE_K 0
 
   /**
    * Some Slicers produce Gcode with randomly jumping extrusion widths occasionally.
