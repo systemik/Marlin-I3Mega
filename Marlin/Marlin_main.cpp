@@ -3786,7 +3786,7 @@ inline void gcode_G4() {
   {
           #ifdef POWER_LOSS_RECOVERY
             //debug_print_job_recovery(false);
-            SERIAL_ECHOLNPGM("G6 POWER LOSS RECOVERY LAUNCHED");
+            SERIAL_ECHOLNPGM("G6 POWER LOSS RECOVERY ACTIVATED");
             save_job_recovery_info();
           #endif
 

@@ -817,7 +817,7 @@ void kill_screen(const char* lcd_msg) {
 
   #endif // SDSUPPORT
 
-  #if ENABLED(POWER_LOSS_RECOVERY)
+ /* #if ENABLED(POWER_LOSS_RECOVERY)
 
     static void lcd_sdcard_recover_job() {
       char cmd[20];
@@ -855,6 +855,7 @@ void kill_screen(const char* lcd_msg) {
 
   #endif
 
+*/
 
   #if ENABLED(MENU_ITEM_CASE_LIGHT)
 
