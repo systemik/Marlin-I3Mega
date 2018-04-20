@@ -95,7 +95,6 @@ public:
   FORCE_INLINE bool isFileOpen() { return file.isOpen(); }
   FORCE_INLINE bool eof() { return sdpos >= filesize; }
   FORCE_INLINE int16_t get() { sdpos = file.curPosition(); return (int16_t)file.read(); }
-  FORCE_INLINE void setIndex(long index) { sdpos = index; file.seekSet(index); }
   FORCE_INLINE void setIndex(const uint32_t index) { sdpos = index; file.seekSet(index); }
   FORCE_INLINE uint32_t getIndex() { return sdpos; }
   FORCE_INLINE uint8_t percentDone() { return (isFileOpen() && filesize) ? sdpos / ((filesize + 99) / 100) : 0; }

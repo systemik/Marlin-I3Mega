@@ -779,7 +779,6 @@ void report_current_position_detail();
 #if ENABLED(POWER_LOSS_RECOVERY) 
   void setup_OutageTestPin(){
   pinMode(OUTAGETEST_PIN,INPUT);
-//  WRITE(OUTAGETEST_PIN,HIGH);
   pinMode(OUTAGECON_PIN,OUTPUT);
   WRITE(OUTAGECON_PIN,LOW);
   }
@@ -1267,6 +1266,11 @@ void get_available_commands() {
   if (drain_injected_commands_P()) return;
 
   get_serial_commands();
+
+  #if ENABLED(POWER_LOSS_RECOVERY)
+    // Commands for power-loss recovery take precedence
+    if (job_recovery_phase == JOB_RECOVERY_YES && drain_job_recovery_commands()) return;
+  #endif
 
   #if ENABLED(SDSUPPORT)
     get_sdcard_commands();
@@ -14963,7 +14967,9 @@ void loop() {
       }
       else
         process_next_command();
-
+        #if ENABLED(POWER_LOSS_RECOVERY)
+        //  if (card.cardOK && card.sdprinting) save_job_recovery_info();
+        #endif
     #else
 
       process_next_command();

@@ -387,8 +387,7 @@ void CardReader::openFile(char* name, const bool read, const bool subcall/*=fals
         strncpy(subdirname, dirname_start, dirname_end - dirname_start);
         subdirname[dirname_end - dirname_start] = '\0';
         if (!myDir.open(curDir, subdirname, O_READ)) {
-          SERIAL_PROTOCOLPGM(MSG_SD_OPEN_FILE_FAIL);
-          SERIAL_PROTOCOL(subdirname);
+          SERIAL_PROTOCOLPAIR(MSG_SD_OPEN_FILE_FAIL, subdirname);
           SERIAL_PROTOCOLCHAR('.');
           return;
         }
