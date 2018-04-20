@@ -3366,6 +3366,41 @@ static void homeaxis(const AxisEnum axis) {
         if (job_recovery_info.valid_head && job_recovery_info.valid_head == job_recovery_info.valid_foot) {
 
           uint8_t ind = 0;
+          char cmd[20];
+
+      // Turn leveling off and home
+      enqueue_and_echo_commands_P(PSTR("M420 S0\nG28"
+        #if !IS_KINEMATIC
+          " X Y"
+        #endif
+      ));
+
+      // Restore the bed temperature
+      sprintf_P(cmd, PSTR("M190 S%i"), job_recovery_info.target_temperature_bed);
+      enqueue_and_echo_command(cmd);
+
+      // Restore all hotend temperatures
+      HOTEND_LOOP() {
+        sprintf_P(cmd, PSTR("M109 S%i"), job_recovery_info.target_temperature[e]);
+        enqueue_and_echo_command(cmd);
+      }
+
+      // Restore print cooling fan speeds
+      for (uint8_t i = 0; i < FAN_COUNT; i++) {
+        sprintf_P(cmd, PSTR("M106 P%i S%i"), i, job_recovery_info.fanSpeeds[i]);
+        enqueue_and_echo_command(cmd);
+      }
+
+      // Start draining the job recovery command queue
+      job_recovery_phase = JOB_RECOVERY_YES;
+
+      // Resume the print job timer
+      //if (job_recovery_info.print_job_elapsed)
+      //  print_job_timer.resume(job_recovery_info.print_job_elapsed);
+
+      // Start getting commands from SD
+      card.startFileprint();
+
 
           #if HAS_LEVELING
             strcpy_P(job_recovery_commands[ind++], PSTR("M420 S0 Z0"));               // Leveling off before G92 or G28
@@ -3751,7 +3786,7 @@ inline void gcode_G4() {
   {
           #ifdef POWER_LOSS_RECOVERY
             //debug_print_job_recovery(false);
-            SERIAL_ECHOLNPGM("G5 POWER LOSS RECOVERY LAUNCHED");
+            SERIAL_ECHOLNPGM("G6 POWER LOSS RECOVERY LAUNCHED");
             save_job_recovery_info();
           #endif
 
@@ -3776,6 +3811,7 @@ inline void gcode_G4() {
           #ifdef POWER_LOSS_RECOVERY
             //debug_print_job_recovery(false);
             SERIAL_ECHOLNPGM("G8 POWER LOSS RECOVERY FROM SD");
+            //lcd_sdcard_recover_job();
             do_print_job_recovery();
           #endif
 
